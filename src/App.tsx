@@ -62,7 +62,7 @@ const App = () => {
     if (todoTitle !== "" && todoDetail !== "") {
       setTodos([
         ...todos,
-        { id: todoId, title: todoTitle, status: "notStarted", detail: "test" },
+        { id: todoId, title: todoTitle, status: "notStarted", detail: todoDetail },
       ]);
       setTodoId((todoId) => todoId + 1);
       resetTodoTitle();
@@ -116,7 +116,7 @@ const App = () => {
 
   const handleStatusChange = (
     { id }: STATUSCHANGE,
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const newTodos = [...todos];
 
@@ -127,7 +127,7 @@ const App = () => {
     );
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilter(e.target.value);
   };
 
@@ -169,7 +169,7 @@ const App = () => {
               variant="flushed"
               placeholder="Flushed"
               value={filter}
-              onChange={handleSelectChange}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSelectChange(e)}
             >
               <option value="all">すべて</option>
               <option value="notStarted">未着手</option>
@@ -187,6 +187,7 @@ const App = () => {
                 type="text"
                 value={todoTitle}
                 onChange={handleSetTodoTitle}
+                                p="0"
               />
             </Box>
 
@@ -200,7 +201,7 @@ const App = () => {
                 type="text"
                 value={todoDetail}
                 onChange={handleSetTodoDetail}
-              />
+                />
             </Box>
             <Button
               onClick={handleAddTodo}
@@ -212,7 +213,7 @@ const App = () => {
             </Button>
 
             {filteredTodos.map((todo) => (
-              <VStack key={todo.id} spacing={4}>
+              <VStack key={todo.id}>
                 <Center>
                   <Flex>
                     <Box>
@@ -237,7 +238,7 @@ const App = () => {
                       variant="filled"
                       placeholder="Filled"
                       value={todo.status}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                         handleStatusChange(todo, e)
                       }
                       width="100px"
